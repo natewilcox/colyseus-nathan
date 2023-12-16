@@ -23,11 +23,22 @@ export class ClientService<M> {
 
     }
 
-    send(msgType: number, data?: any) {
-        this.room.broadcast(this.msgs.SendMessage, {
-            type: msgType,
-            ...data,
-        });
+    send(msgType: number, data?: any, client?: Client) {
+
+        if(client) {
+            
+            client.send(this.msgs.SendMessage, {
+                type: msgType,
+                ...data,
+            });
+            return;
+        }
+        else {
+            this.room.broadcast(this.msgs.SendMessage, {
+                type: msgType,
+                ...data,
+            });
+        }
     }
 
     on(msgType: number, cb: (client: Client, data: any) => void, context?: any) {
