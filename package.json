@@ -24,6 +24,10 @@
   },
   "license": "GPL-3.0",
   "dependencies": {
-    "colyseus": "^0.15.13"
+    "colyseus": "^0.15.13",
+    "web-push": "^3.6.6"
+  },
+  "devDependencies": {
+    "@types/web-push": "^3.6.3"
   }
 }
