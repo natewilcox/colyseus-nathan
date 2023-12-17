@@ -5,11 +5,13 @@ type EnumWithSendMessage<T> = T & { SendMessage: 0 };
 
 export class ClientService<M> {
 
+    private static instance: ClientService<any>;
+    
     private room: Room;
     private clientHandlers = new Map<number, (client: Client, msg: any) => void>();
     private msgs = { SendMessage: 0 } as EnumWithSendMessage<M>;
 
-    constructor(room: Room) {
+    private constructor(room: Room) {
         this.room = room;
 
         this.room.onMessage(this.msgs.SendMessage, (client, data) => {
@@ -23,6 +25,15 @@ export class ClientService<M> {
 
     }
 
+    public static getInstance<T>(room: Room): ClientService<T> {
+
+        if (!ClientService.instance) {
+            ClientService.instance = new ClientService<T>(room);
+        }
+
+        return ClientService.instance;
+    }
+    
     send(msgType: number, data?: any, client?: Client) {
 
         if(client) {

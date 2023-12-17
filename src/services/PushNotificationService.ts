@@ -2,15 +2,31 @@ import * as webpush from 'web-push';
 
 export class PushNotificationService {
 
-    constructor() {
+    private static instance: PushNotificationService;
+    private static vapidKeys: any;
 
-        const vapidKeys = webpush.generateVAPIDKeys();
+    private constructor() {
+    }
 
-        webpush.setVapidDetails(
-            'mailto:natewilcox@gmail.com',
-            vapidKeys.publicKey,
-            vapidKeys.privateKey
-        );
+    public static getInstance(): PushNotificationService {
+
+        if (!PushNotificationService.instance) {
+
+            PushNotificationService.instance = new PushNotificationService();
+            PushNotificationService.vapidKeys = webpush.generateVAPIDKeys();
+
+            webpush.setVapidDetails(
+                'mailto:natewilcox@gmail.com',
+                PushNotificationService.vapidKeys.publicKey,
+                PushNotificationService.vapidKeys.privateKey
+            );
+        }
+
+        return PushNotificationService.instance;
+    }
+
+    publicKey() {
+        return PushNotificationService.vapidKeys.publicKey;
     }
 
     async sendPush(subscription: any, title: string, body: string) {
