@@ -1,6 +1,6 @@
 {
   "name": "@natewilcox/colyseus-nathan",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Nathan's extensions for Colyseus",
   "main": "build/main.js",
   "types": "build/main.d.ts",
